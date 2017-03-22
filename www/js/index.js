@@ -99,7 +99,7 @@ var app = {
 };
 
 function atualiza(){
-    $('.progress').removeClass("quit");
+    
     $.ajax({
             url : "https://fast-plateau-72082.herokuapp.com/api/", // the endpoint
             type : "GET", // http method
@@ -110,6 +110,12 @@ function atualiza(){
                 
                 $('#dia').html("<h5><small>Atualizado às "+com[11]+"</small></h5>")
             },
+            beforeSend: function(){
+              $('.progress').removeClass("quit");
+            },
+            complete: function(){
+              $('.progress').addClass("quit");
+            },
 
             // handle a non-successful response
             error : function(xhr,errmsg,err) {
@@ -118,9 +124,8 @@ function atualiza(){
 
             }
         });
-    $('.progress').addClass("quit");
 }
-
+//lml
 function segd(){
     $('.til').html("Segunda (Almoço)");
 
