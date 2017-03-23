@@ -37,8 +37,13 @@ var app = {
     // function, we must explicitly call 'app.receivedEvent(...);'
     onDeviceReady: function() {
         app.receivedEvent('deviceready');
-
-        atualiza();
+        if(navigator.network.connection.type != Connection.NONE && JSON.parse(localStorage.getItem("dados")) != null){
+            console.log("Entrou na falha");            
+            com = JSON.parse(localStorage.getItem("dados"));
+            dados_guardados();
+        }else{
+            atualiza();
+        }       
         
         var dia = new Date().getDay();
         var hora = new Date().getHours();
@@ -98,8 +103,7 @@ var app = {
     }
 };
 
-function atualiza(){
-    
+function atualiza(){    
     $.ajax({
             url : "https://fast-plateau-72082.herokuapp.com/api/", // the endpoint
             type : "GET", // http method
@@ -107,6 +111,7 @@ function atualiza(){
             success : function(json) {
                 console.log(json); // log the returned json to the console
                 com = json;
+                window.localStorage.setItem("dados", JSON.stringify(json));
                 
                 $('#dia').html("<h5><small>Atualizado às "+com[11]+"</small></h5>")
             },
@@ -119,13 +124,40 @@ function atualiza(){
 
             // handle a non-successful response
             error : function(xhr,errmsg,err) {
-                $('#dia').html("<h5><small>Falha ao buscar API</small></h5>")
+                if(JSON.parse(localStorage.getItem("dados")) == null){
+                    $('#dia').html("<h5><small>Falha ao buscar API</small></h5>");
+                }else{
+                    com = JSON.parse(localStorage.getItem("dados"));
+                    dados_guardados();
+                    segd();
+                    segn();
+                    terd();
+                    tern();
+                    quan();
+                    quad();
+                    quid();
+                    quin();
+                    sexd();
+                    sexn();
+                    sab();
+                    var $toastContent = $('<span>Falha ao se conectar a API</span>');
+                    Materialize.toast($toastContent, 5000);
+                }
+                
+                
                 console.log('offline');
 
             }
         });
 }
-//lml
+
+function dados_guardados(){
+    $('.progress').addClass("quit");
+    var $toastContent = $('<span>Estes dados podem estar desatualizados. Conecte-se a internet.</span>');
+    Materialize.toast($toastContent, 5000);
+    $('#dia').html("<h5><small>Atualizado às "+com[11]+"</small></h5>")
+}
+
 function segd(){
     $('.til').html("Segunda (Almoço)");
 
