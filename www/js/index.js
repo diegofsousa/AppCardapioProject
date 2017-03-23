@@ -143,8 +143,6 @@ function atualiza(){
                     var $toastContent = $('<span>Falha ao se conectar a API</span>');
                     Materialize.toast($toastContent, 5000);
                 }
-                
-                
                 console.log('offline');
 
             }
@@ -428,3 +426,5 @@ function sab(){
 function sair(){
     navigator.app.exitApp();
 }
+
+//coding by Diego Fernando
