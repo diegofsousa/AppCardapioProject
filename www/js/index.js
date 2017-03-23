@@ -37,7 +37,7 @@ var app = {
     // function, we must explicitly call 'app.receivedEvent(...);'
     onDeviceReady: function() {
         app.receivedEvent('deviceready');
-        if(navigator.network.connection.type != Connection.NONE && JSON.parse(localStorage.getItem("dados")) != null){
+        if(navigator.network.connection.type == Connection.NONE && JSON.parse(localStorage.getItem("dados")) != null){
             console.log("Entrou na falha");            
             com = JSON.parse(localStorage.getItem("dados"));
             dados_guardados();
